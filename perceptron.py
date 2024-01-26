@@ -38,23 +38,21 @@ print(wv)
 
 
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
 
-fv_counter=0
-color=['g','y']
-for c in range(len(classes)):
-    for fv in classes[c]:
-        fv_counter+=1
-        plt.plot(fv[0],fv[1],f'{color[c]}o')
-        # plt.plot(fv[0],fv[1],f'{col[c]}o', label=f"F.V{fv_counter}")
+fig=plt.figure(figsize=(5,5))
+ax=plt.axes(projection='3d')
 
-plt.plot(w[0],w[1],label="perceptron")
+ax=fig.add_subplot(111,projection='3d')
 
-plt.xlabel('x - axis')
-plt.ylabel('y - axis')
+xx,yy=np.meshgrid(range(-2,3),range(-2,3))
+z=(2*-xx)
 
-plt.title('PERCEPTRON')
+ax.plot_surface(xx, yy, z, alpha=0.5)
 
-# show a legend on the plot
-plt.legend()
+ax.scatter3D([0,0],[0,1],[1,1],color='green')
+ax.scatter3D([-1,-1],[0,-1],[-1,-1], color='red')
+
 # function to show the plot
 plt.show()
