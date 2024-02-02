@@ -16,10 +16,12 @@ def newWeight(wv,mfv,ro):
 
 
 misclas_fv=[0,0,0]
-w=[0,0,0]
+w=[-2,0,1]
 
 count=0
 while count!=-1:
+    # epoch
+    misclas_fv=[0,0,0]
     for c in range(len(classes)):
         for fv in classes[c]:
             if len(fv)<len(w):
@@ -31,18 +33,14 @@ while count!=-1:
 
             if dotProduct(w,fv)<=0:
                 misclas_fv=[a+b for a,b in zip(misclas_fv,fv)]
-    count+=1
-
-    print(count,misclas_fv)
-
-    if w!=misclas_fv:
-        w=misclas_fv
-        # count+=1
-    else:
-        break
     
-
-wv=newWeight(w,misclas_fv,ro)
+    if misclas_fv==[0,0,0]:
+        break
+    elif count==30:
+        break
+    else:
+        w=newWeight(w,misclas_fv,ro)
+        count+=1
 
 print(count,w)
 
