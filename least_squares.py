@@ -6,7 +6,9 @@ fv=classes[0]
 fv.append(classes[1][0])
 fv.append(classes[1][1])
 
-XXdot_prot=sum([np.dot(x,x) for x in fv])
+# transpose matrix X
 
-print(XXdot_prot)
-w=[]
+# 
+XtXdot_prot=sum([np.dot(x,x) for x in fv])
+
+w=[1/XtXdot_prot * ]
