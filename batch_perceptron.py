@@ -16,7 +16,7 @@ def newWeight(wv,mfv,ro):
 
 
 misclas_fv=[0,0,0]
-w=[-2,0,1]
+w=[0,0,0]
 
 count=0
 while count!=-1:
@@ -33,7 +33,8 @@ while count!=-1:
 
             if dotProduct(w,fv)<=0:
                 misclas_fv=[a+b for a,b in zip(misclas_fv,fv)]
-    
+    print(count,w)
+
     if misclas_fv==[0,0,0]:
         break
     elif count==30:
