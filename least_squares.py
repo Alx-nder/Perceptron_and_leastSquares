@@ -7,8 +7,9 @@ fv.append(classes[1][0])
 fv.append(classes[1][1])
 
 # transpose matrix X
+Xt=np.array(fv).transpose()
 
 # 
 XtXdot_prot=sum([np.dot(x,x) for x in fv])
 
-w=[1/XtXdot_prot * ]
+# w=[1/XtXdot_prot * ]
