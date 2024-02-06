@@ -1,14 +1,17 @@
 import numpy as np
+import pandas as pd
 
-classes = [[[0,0,1],[0,1,1]], [[1,0,1],[1,1,1]]]
+df=pd.read_excel("Pattern_Recognition\proj1\Proj1DataSet.xlsx")
+
+# add offset and drop species to get feature variables fv or X
+df=df.assign(offset=[1]*df.shape[0])
+
 
 t=[0,0,1,1]
-fv=classes[0]
-fv.append(classes[1][0])
-fv.append(classes[1][1])
 
-fv=np.array(fv)
+df.drop(columns='species',inplace=True)
 
+fv=df.values.tolist()
 #Xt: transpose matrix X
 Xt=np.array(fv).transpose()
 #XtX: matrix multiplication
@@ -21,10 +24,8 @@ XtX_inv=np.linalg.inv(XtX)
 Xfin= np.matmul(XtX_inv,Xt)
 
 
-# w=Xfin.dot(t)
 w=np.matmul(Xfin,t)
-print(w)
-# test
+
 print(w.dot([1,1,1]))
 
 

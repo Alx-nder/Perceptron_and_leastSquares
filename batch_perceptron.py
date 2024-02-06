@@ -3,15 +3,16 @@ import pandas as pd
 
 df=pd.read_excel("Pattern_Recognition\proj1\Proj1DataSet.xlsx")
 
-# add offset and drop species to get feature variables fv or X
+# add offset  
 df=df.assign(offset=[1]*df.shape[0])
-df.drop(columns='species',inplace=True)
 
-fv=df.values.tolist()
-
-classes = [[[0,0],[0,1]], [[1,0],[1,1]]]
+classes=[(df.loc[df['species'] ==fv]).drop(columns='species').values.tolist() for fv in df.species.unique()]
 ro=1
+classes=[classes[0],classes[1]+classes[2]]
 
+# drop species to get feature variables fv or X
+df.drop(columns='species',inplace=True)
+# fv=df.values.tolist()
 
 
 def dotProduct(wv,fv):
@@ -25,27 +26,27 @@ def newWeight(wv,mfv,ro):
     return newWV
 
 
-misclas_fv=[0,0,0]
-w=[0,0,0]
+misclas_fv=[0]*df.shape[1]
+w=[0]*df.shape[1]
 
 count=0
 while count!=-1:
     # epoch
-    misclas_fv=[0,0,0]
+    misclas_fv=[0]*df.shape[1]
     for c in range(len(classes)):
         for fv in classes[c]:
             if len(fv)<len(w):
-                if c==1:
+                if c!=0:
                     fv=[-v for v in fv]
-                    fv.append(-1)
-                elif c==0:
-                    fv.append(1)
+                #     fv.append(-1)
+                # elif c==0:
+                #     fv.append(1)
 
             if dotProduct(w,fv)<=0:
                 misclas_fv=[a+b for a,b in zip(misclas_fv,fv)]
     print(count,w)
 
-    if misclas_fv==[0,0,0]:
+    if misclas_fv==[0]*df.shape[1]:
         break
     elif count==30:
         break
