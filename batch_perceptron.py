@@ -6,28 +6,26 @@ df=pd.read_excel("Pattern_Recognition\proj1\Proj1DataSet.xlsx")
 # add offset  
 df=df.assign(offset=[1]*df.shape[0])
 
+# learning rate
+ro=0.5
+
 classes=[(df.loc[df['species'] ==fv]).drop(columns='species').values.tolist() for fv in df.species.unique()]
-ro=1
-classes=[classes[0],classes[1]+classes[2]]
 
 # drop species to get feature variables fv or X
 df.drop(columns='species',inplace=True)
-# fv=df.values.tolist()
 
+# class separation
+classes=[classes[0],classes[1]+classes[2]]
 
-def dotProduct(wv,fv):
-    res=0
-    for i,j in zip(wv, fv):
-        res+=i*j
-    return res
-
-def newWeight(wv,mfv,ro):    
-    newWV=[w+(ro*v) for w,v in zip(wv,mfv)]
-    return newWV
+# class 2 negative
+classes[1]=-1*np.array(classes[1])
 
 
 misclas_fv=[0]*df.shape[1]
+
+# initial guess for weight vector
 w=[0]*df.shape[1]
+w=np.array(w)
 
 count=0
 while count!=-1:
@@ -35,23 +33,19 @@ while count!=-1:
     misclas_fv=[0]*df.shape[1]
     for c in range(len(classes)):
         for fv in classes[c]:
-            if len(fv)<len(w):
-                if c!=0:
-                    fv=[-v for v in fv]
-                #     fv.append(-1)
-                # elif c==0:
-                #     fv.append(1)
+            if w.dot(fv)<=0:
+                misclas_fv=np.add(fv,misclas_fv)
 
-            if dotProduct(w,fv)<=0:
-                misclas_fv=[a+b for a,b in zip(misclas_fv,fv)]
-    print(count,w)
-
-    if misclas_fv==[0]*df.shape[1]:
+    # if no misclassification occurs stop running
+    if misclas_fv is ([0]*df.shape[1]):
         break
-    elif count==30:
+    # if 50 epoch passes, stop running
+    elif count==50:
         break
+    
     else:
-        w=newWeight(w,misclas_fv,ro)
+        # otherwise update weight vector
+        w=np.add(w, (ro*np.array(misclas_fv)))
         count+=1
 
 print(count,w)
