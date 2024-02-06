@@ -1,3 +1,13 @@
+import numpy as np
+import pandas as pd
+
+df=pd.read_excel("Pattern_Recognition\proj1\Proj1DataSet.xlsx")
+
+# add offset and drop species to get feature variables fv or X
+df=df.assign(offset=[1]*df.shape[0])
+df.drop(columns='species',inplace=True)
+
+fv=df.values.tolist()
 
 classes = [[[0,0],[0,1]], [[1,0],[1,1]]]
 ro=1

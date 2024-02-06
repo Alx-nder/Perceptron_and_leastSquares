@@ -3,7 +3,6 @@ import numpy as np
 classes = [[[0,0,1],[0,1,1]], [[1,0,1],[1,1,1]]]
 
 t=[0,0,1,1]
-
 fv=classes[0]
 fv.append(classes[1][0])
 fv.append(classes[1][1])
