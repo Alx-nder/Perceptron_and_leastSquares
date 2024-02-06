@@ -7,9 +7,16 @@ df=pd.read_excel("Pattern_Recognition\proj1\Proj1DataSet.xlsx")
 df=df.assign(offset=[1]*df.shape[0])
 
 
-t=[0,0,1,1]
+classes=[(df.loc[df['species'] ==fv]).drop(columns='species').values.tolist() for fv in df.species.unique()]
 
+# drop species to get feature variables fv or X
 df.drop(columns='species',inplace=True)
+
+# class separation
+classes=[classes[0],classes[1]+classes[2]]
+
+# target vector 
+t=[0]*len(classes[0])+[1]*len(classes[1])
 
 fv=df.values.tolist()
 #Xt: transpose matrix X
@@ -26,7 +33,7 @@ Xfin= np.matmul(XtX_inv,Xt)
 
 w=np.matmul(Xfin,t)
 
-print(w.dot([1,1,1]))
+print(w.dot(classes[1][0]))
 
 
 
