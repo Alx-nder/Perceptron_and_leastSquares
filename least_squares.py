@@ -6,7 +6,6 @@ df=pd.read_excel("Pattern_Recognition\proj1\Proj1DataSet.xlsx")
 # add offset and drop species to get feature variables fv or X
 df=df.assign(offset=[1]*df.shape[0])
 
-
 classes=[(df.loc[df['species'] ==fv]).drop(columns='species').values.tolist() for fv in df.species.unique()]
 
 # drop species to get feature variables fv or X
@@ -18,18 +17,20 @@ classes=[classes[0],classes[1]+classes[2]]
 # target vector 
 t=[0]*len(classes[0])+[1]*len(classes[1])
 
+# feature vectors fv or X extracted from dataframe
 fv=df.values.tolist()
+
 #Xt: transpose matrix X
 Xt=np.array(fv).transpose()
+
 #XtX: matrix multiplication
 XtX=np.matmul(Xt,fv)
 
 #XtX_inv: inverse of XtX
 XtX_inv=np.linalg.inv(XtX)
 
-#Xfin (XtX)**-1 multiplied by Xt
+#X final (XtX)**-1 multiplied by Xt
 Xfin= np.matmul(XtX_inv,Xt)
-
 
 w=np.matmul(Xfin,t)
 
