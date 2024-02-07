@@ -92,6 +92,8 @@ def leastSquares(target,feature):
 
 
     # function to show the plot
+        plt.ylim(0,3)
+        plt.xlim(0,9)
         plt.show()
     
     return w,misclassed

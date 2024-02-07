@@ -81,6 +81,8 @@ def batch_perceptron(target,feature, ro):
             ax.scatter(-point[0],-point[1],color='orange')
 
     # function to show the plot
+        plt.ylim(0,3)
+        plt.xlim(0,9)
         plt.show()
     
     return(count,w,misclassed)
