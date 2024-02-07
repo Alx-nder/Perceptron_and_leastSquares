@@ -60,12 +60,11 @@ def leastSquares(target,feature):
 
         ax=fig.add_subplot(projection='3d')
 
-        xx,yy=np.meshgrid(range(0,9),range(0,9))
+        xx,yy=np.meshgrid(range(3,9),range(3,9))
         z=(w[0]*xx + w[1]*yy)/w[2]
 
         ax.plot_surface(xx, yy, z, alpha=0.5)
         
-        # x'es
         c1_start=(target[0]-1)*class_size
         c1_stop=c1_start+class_size
         c1_plot=[x for x in fv[c1_start:c1_stop]]
