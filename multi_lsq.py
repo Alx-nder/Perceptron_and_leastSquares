@@ -30,4 +30,4 @@ W=np.matmul(Xfin,T)
 
 decisions=W.transpose()
 
-
+ 
