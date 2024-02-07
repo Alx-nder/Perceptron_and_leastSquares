@@ -58,7 +58,7 @@ def batch_perceptron(target,feature, ro):
 
     # plot 
     if len(needed_features)==3:
-        fig=plt.figure(figsize=(4,4))
+        plt.figure(figsize=(4,4))
         ax=plt.axes()
 
         # ax=fig.add_subplot(projection='3d')

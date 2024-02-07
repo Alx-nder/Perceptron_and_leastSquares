@@ -23,7 +23,7 @@ def leastSquares(target,feature):
         t=[0]*class_size + [1]*(df.shape[0]-class_size)
     elif target[0]==2:
         t=[1]*class_size + [0]*class_size +[1]*class_size
-    else:
+    elif target[0]==3:
         t= [1]*(df.shape[0]-class_size)+ [0]*class_size
 
     # feature vectors fv or X extracted from dataframe
@@ -42,20 +42,18 @@ def leastSquares(target,feature):
     Xfin= np.matmul(XtX_inv,Xt)
 
     w=np.matmul(Xfin,t)
-    # return w
 
     # test
     misclassed=0
     for x in range(len(fv)):
         # first class <= 0.5, second class >= 0.5
-        if (w.dot(fv[x])<=0.5 and t[x]==0) or (w.dot(fv[x])>0.5 and t[x]==1):
-            pass
-        else:
+        if (w.dot(fv[x])<0.5 and t[x]==1) or (w.dot(fv[x])>=0.5 and t[x]==0):
             misclassed+=1
+            print(fv[x],t[x],x)
 
     # plot 
     if len(needed_features)==3:
-        fig=plt.figure(figsize=(4,4))
+        plt.figure(figsize=(4,4))
 
         # 2d
         ax=plt.axes()
