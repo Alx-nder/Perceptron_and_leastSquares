@@ -35,6 +35,7 @@ def batch_perceptron(target,feature, ro):
         
         for c in range(len(classes)):
             for fv in classes[c]:
+                # separate features we need
                 fv=[fv[new_fv] for new_fv in feature]
                 
                 if w.dot(fv)<=0:
