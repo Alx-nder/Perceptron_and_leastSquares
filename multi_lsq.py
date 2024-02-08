@@ -40,7 +40,6 @@ def multi_least_squares(feature):
 
     decisions=W.transpose()
 
-
     # test
     misclassified=0
     for i in range(len(fv)):
@@ -72,8 +71,6 @@ def multi_least_squares(feature):
         plt.plot(x,-(d2[0]*x + d2[2])/d2[1])
         plt.plot(x,-(d3[0]*x + d3[2])/d3[1])
 
-
-
         # 3d 
         # ax=plt.axes(projection='3d')
         # ax=fig.add_subplot(projection='3d')
@@ -96,13 +93,10 @@ def multi_least_squares(feature):
             # ax.scatter3D(point[0],point[1],point[2],color='orange')
             ax.scatter(point[0],point[1],color='orange')
 
-
     # function to show the plot
         plt.ylim(0,3)
         plt.xlim(0,9)
         plt.show()
-
-
 
     return W,misclassified
 

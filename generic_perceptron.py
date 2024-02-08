@@ -42,17 +42,21 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 fig=plt.figure(figsize=(5,5))
-ax=plt.axes(projection='3d')
+# ax=plt.axes(projection='3d')
+ax=plt.axes()
 
-ax=fig.add_subplot(111,projection='3d')
+# ax=fig.add_subplot(111,projection='3d')
 
-xx,yy=np.meshgrid(range(-2,3),range(-2,3))
-z=(w[0]*xx + w[1]*yy)
+# xx,yy=np.meshgrid(range(-2,3),range(-2,3))
+# z=(w[0]*xx + w[1]*yy)/w[2]
 
-ax.plot_surface(xx, yy, z, alpha=0.5)
+# ax.plot_surface(xx, yy, z, alpha=0.5)
+x=np.linspace(-1, 2, 1000)
+    # function
+plt.plot(x,-1*(w[0]*x + w[2])/w[1])
 
-ax.scatter3D([0,0],[0,1],[1,1],color='green')
-ax.scatter3D([-1,-1],[0,-1],[-1,-1], color='red')
+ax.scatter([0,0],[0,1],color='green')
+ax.scatter([1,1],[0,1], color='red')
 
 # function to show the plot
 plt.show()

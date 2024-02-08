@@ -54,12 +54,12 @@ def leastSquares(target,feature):
     # plot 
     if len(needed_features)==3:
         plt.figure(figsize=(4,4))
+        ax=plt.axes()
 
         # 2d
-        ax=plt.axes()
         x=np.linspace(0, 9, 1000)
         # function
-        plt.plot(x,-(w[0]*x+ w[2])/w[1])
+        plt.plot(x,-1*(w[0]*x + w[2])/w[1])
 
         # 3d 
         # ax=plt.axes(projection='3d')
