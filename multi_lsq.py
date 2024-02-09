@@ -1,11 +1,12 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from sklearn.preprocessing import StandardScaler
+
 
 
 def multi_least_squares(feature):
-
+    names={'0':'setosa','1':'versicolor','2':'virginica'}
     df=pd.read_excel("Pattern_Recognition\\proj1\\Proj1DataSet.xlsx")
 
     counts=df.species.value_counts().values
@@ -14,10 +15,18 @@ def multi_least_squares(feature):
     t3=[[0,0,1]]*counts[2]
     T=t1+t2+t3
 
+    scaler=StandardScaler()
+
+
     # add offset and drop species to get feature variables fv or X
-    df=df.assign(offset=[1]*df.shape[0])
     df.drop(columns='species',inplace=True)
-    
+
+    # scale data
+    df_scaled=scaler.fit_transform(df)
+    df = pd.DataFrame(df_scaled, columns=df.columns)
+
+    df=df.assign(offset=[1]*df.shape[0])
+
     feature=[f-1 for f in feature]
     feature.append(-1)
     needed_features = [df.columns[x] for x in feature ]
@@ -54,7 +63,7 @@ def multi_least_squares(feature):
         # if position does not point to 1
         if T[i][pos]!=max(T[i]):
             misclassified+=1
-
+            print(pos)
     # plot 
     if len(needed_features)==3:
         plt.figure(figsize=(4,4))
@@ -65,37 +74,34 @@ def multi_least_squares(feature):
         d1=decisions[0]
         d2=decisions[1]
         d3=decisions[2]
-        x=np.linspace(0, 9, 1000)
+        l1=np.array(d1)-np.array(d2)
+        l2=np.array(d1)-np.array(d3)
+        l3=np.array(d2)-np.array(d3)
+        x=np.linspace(-3, 9, 1000)
 
-        plt.plot(x,-(d1[0]*x + d1[2])/d1[1])
-        plt.plot(x,-(d2[0]*x + d2[2])/d2[1])
-        plt.plot(x,-(d3[0]*x + d3[2])/d3[1])
+        plt.plot(x,-1*(l1[0]*x )/l1[1], label='d1-d2')
+        plt.plot(x,-1*(l2[0]*x )/l2[1], label='d1-d3')
+        plt.plot(x,-1*(l3[0]*x )/l3[1], label='d2-d3')
 
-        # 3d 
-        # ax=plt.axes(projection='3d')
-        # ax=fig.add_subplot(projection='3d')
-        # xx,yy=np.meshgrid(range(3,9),range(3,9))
-        # z=(w[0]*xx + w[1]*yy)/w[2]
-        # ax.plot_surface(xx, yy, z, alpha=0.5)
+        fv=np.array(fv)
+        fv=fv.T
+
+        c1=list(zip(fv[0][0:50],fv[1][0:50]))
+        x,y=zip(*c1)
+        ax.scatter(x,y,color='green',label=names['0'])
         
-        c1_plot=[x for x in fv[0:50]]
-        for point in c1_plot:
-            # ax.scatter3D(point[0],point[1],point[2],color='green')
-            ax.scatter(point[0],point[1],color='green')
-
-        c2_plot=[x for x in fv[50:100]]
-        for point in c2_plot:
-            # ax.scatter3D(point[0],point[1],point[2],color='red')
-            ax.scatter(point[0],point[1],color='red')
-
-        c3_plot=[x for x in fv[100:150]]
-        for point in c3_plot:
-            # ax.scatter3D(point[0],point[1],point[2],color='orange')
-            ax.scatter(point[0],point[1],color='orange')
-
+        c2=list(zip(fv[0][50:100],fv[1][50:100]))
+        x,y=zip(*c2)
+        ax.scatter(x,y,color='red',label=names['1'])
+        
+        c3=list(zip(fv[0][100:150],fv[1][100:150]))
+        x,y=zip(*c3)
+        ax.scatter(x,y,color='orange',label=names['2'])
     # function to show the plot
-        plt.ylim(0,3)
-        plt.xlim(0,9)
+        plt.ylim(-2,2)
+        plt.xlim(-2,3)
+        plt.legend(loc="upper left")
+
         plt.show()
 
     return W,misclassified

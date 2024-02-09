@@ -6,6 +6,8 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 def batch_perceptron(target,feature, ro):
+    names={'0':'setosa','1':'versicolor','2':'virginica'}
+
     target=[t-1 for t in target]
     feature=[f-1 for f in feature] 
     feature.append(-1)
@@ -18,7 +20,7 @@ def batch_perceptron(target,feature, ro):
     needed_features = [df.columns[x] for x in feature ]
 
     classes=[(df.loc[df['species'] ==fv])[needed_features].values.tolist() for fv in df.species.unique()]
-
+    # create class 0, class 1
     classes=[classes[target[0]],classes[target[1]]+classes[target[2]]]
 
     # class 2 negative
@@ -60,29 +62,29 @@ def batch_perceptron(target,feature, ro):
     if len(needed_features)==3:
         plt.figure(figsize=(4,4))
         ax=plt.axes()
-
-        # ax=fig.add_subplot(projection='3d')
-
-        # xx,yy=np.meshgrid(range(0,9),range(0,9))
-        # z=(w[0]*xx + w[1]*yy)/w[2]
-
-        # ax.plot_surface(xx, yy, z, alpha=0.5)
         
         x=np.linspace(0, 9, 1000)
         plt.plot(x,-(w[0]*x+w[2])/w[1])
 
-        for point in classes[0]:
-            ax.scatter(point[0],point[1],color='green')
+        c1=np.array(classes[0]).T
+        c1=list(zip(c1[0],c1[1]))
+        x,y=zip(*c1)
+        ax.scatter(x,y,color='green',label=names[f'{target[0]}'])
         
-        for point in classes[1][:50]:
-            ax.scatter(-point[0],-point[1],color='red')
+        c2=-1*np.array(classes[1][:50]).T
+        c2=list(zip(c2[0],c2[1]))
+        x,y=zip(*c2)
+        ax.scatter(x,y,color='red',label=names[f'{target[1]}'])
 
-        for point in classes[1][50:]:
-            ax.scatter(-point[0],-point[1],color='orange')
+        c3=-1*np.array(classes[1][50:]).T
+        c3=list(zip(c3[0],c3[1]))
+        x,y=zip(*c3)
+        ax.scatter(x,y,color='orange',label=names[f'{target[2]}'])
 
     # function to show the plot
         plt.ylim(0,3)
         plt.xlim(0,9)
+        plt.legend(loc="upper left")
         plt.show()
     
     return(count,w,misclassed)
