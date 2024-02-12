@@ -89,4 +89,4 @@ def batch_perceptron(target,feature, ro):
     
     return(count,w,misclassed)
 
-print(batch_perceptron([1,2,3],[3,4],.5))
+print(batch_perceptron([3,2,1],[3,4],.5))

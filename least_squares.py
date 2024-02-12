@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from sklearn.preprocessing import StandardScaler
 
 
 def leastSquares(target,feature):
@@ -88,4 +88,4 @@ def leastSquares(target,feature):
     
     return w,misclassed
 
-print(leastSquares([1,2,3],[3,4]))
+print(leastSquares([3,2,1],[3,4]))

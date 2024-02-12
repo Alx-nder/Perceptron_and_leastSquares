@@ -100,7 +100,7 @@ def multi_least_squares(feature):
     # function to show the plot
         plt.ylim(-2,2)
         plt.xlim(-2,3)
-        plt.legend(loc="upper left")
+        plt.legend(loc="lower right")
 
         plt.show()
 
