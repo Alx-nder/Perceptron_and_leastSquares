@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 
 
 def leastSquares(target,feature):
+    names={'0':'setosa','1':'versicolor','2':'virginica'}
 
     feature=[f-1 for f in feature]
     feature.append(-1)
@@ -55,37 +56,36 @@ def leastSquares(target,feature):
         plt.figure(figsize=(4,4))
         ax=plt.axes()
 
+        w=w.tolist()
         # 2d
-        x=np.linspace(0, 9, 1000)
-        # function
-        plt.plot(x,-1*(w[0]*x + w[2])/w[1])
-
         
-        c1_start=(target[0]-1)*class_size
-        c1_stop=c1_start+class_size
-        c1_plot=[x for x in fv[c1_start:c1_stop]]
-        for point in c1_plot:
-            ax.scatter(point[0],point[1],color='green')
+        x = np.array([0,1, 2, 3,4,5,6,7,8,9 ])  # X-axis points
+        y = -(x * w[0] +w[2])/x*w[1]  # Y-axis points
+    
+        plt.plot(x, y)  # Plot the chart
 
-        c2_start=(target[1]-1)*class_size
-        c2_stop=c2_start+class_size
-        c2_plot=[x for x in fv[c2_start:c2_stop]]
-        for point in c2_plot:
-            ax.scatter(point[0],point[1],color='red')
+        fv=np.array(fv)
+        fv=fv.T
 
-
-        c3_start=(target[2]-1)*class_size
-        c3_stop=c3_start+class_size
-        c3_plot=[x for x in fv[c3_start:c3_stop]]
-        for point in c3_plot:
-            ax.scatter(point[0],point[1],color='orange')
-
+        c1=list(zip(fv[0][0:50],fv[1][0:50]))
+        x,y=zip(*c1)
+        ax.scatter(x,y,color='green',label=names['0'])
+        
+        c2=list(zip(fv[0][50:100],fv[1][50:100]))
+        x,y=zip(*c2)
+        ax.scatter(x,y,color='red',label=names['1'])
+        
+        c3=list(zip(fv[0][100:150],fv[1][100:150]))
+        x,y=zip(*c3)
+        ax.scatter(x,y,color='orange',label=names['2'])
 
     # function to show the plot
         plt.ylim(0,3)
         plt.xlim(0,9)
+        plt.legend(loc="lower right")
+
         plt.show()
     
     return w,misclassed
 
-print(leastSquares([3,2,1],[3,4]))
+print(leastSquares([1,2,3],[3,4]))
